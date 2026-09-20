@@ -1,6 +1,6 @@
 # Lets Go 🚀
 
-[![wakatime](https://wakatime.com/badge/github/edmealem-k/lets-go.svg)](https://wakatime.com/badge/github/edmealem-k/lets-go)
+[![wakatime](https://wakatime.com/badge/github/edmealem-k/learn-golang.svg)](https://wakatime.com/badge/github/edmealem-k/learn-golang)
 
 A hands-on repository documenting my journey of learning the Go programming language from various courses, blogs, and real-world projects. This repository contains code snippets, syntax experiments, notes, and mini-applications built along the way.
 
