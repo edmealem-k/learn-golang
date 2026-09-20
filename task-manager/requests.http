@@ -1,0 +1,147 @@
+### ==============================================================================
+### Task Manager REST API - Interactive HTTP Request Collection
+### Use with VS Code "REST Client" extension, JetBrains HTTP Client, or Cursor.
+### ==============================================================================
+
+@baseUrl = http://localhost:8080/api/v1
+@contentType = application/json
+
+# Change this after running the Login request below:
+@authToken = YOUR_ACCESS_TOKEN_HERE
+
+
+### ------------------------------------------------------------------------------
+### 1. HEALTH CHECK & ROOT
+### ------------------------------------------------------------------------------
+
+# @name healthCheck
+GET http://localhost:8080/health
+Accept: {{contentType}}
+
+
+### ------------------------------------------------------------------------------
+### 2. AUTHENTICATION & RECOVERY
+### ------------------------------------------------------------------------------
+
+### Register New User
+# @name signUp
+POST {{baseUrl}}/auth/signup
+Content-Type: {{contentType}}
+
+{
+  "name": "Jane Doe",
+  "email": "jane.doe@example.com",
+  "password": "SuperSecretPassword123!"
+}
+
+### User Login (Copy the returned access_token into @authToken above)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "jane.doe@example.com",
+  "password": "SuperSecretPassword123!"
+}
+
+### Refresh Access Token
+# @name refreshToken
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refresh_token": "PASTE_REFRESH_TOKEN_HERE"
+}
+
+### Request Password Reset (Dispatches email via Mailtrap)
+# @name forgotPassword
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: {{contentType}}
+
+{
+  "email": "jane.doe@example.com"
+}
+
+### Submit New Password with Reset Token
+# @name resetPassword
+POST {{baseUrl}}/auth/reset-password
+Content-Type: {{contentType}}
+
+{
+  "token": "PASTE_RESET_TOKEN_RECEIVED_IN_EMAIL",
+  "new_password": "EvenStrongerPassword456!"
+}
+
+
+### ------------------------------------------------------------------------------
+### 3. CATEGORY MANAGEMENT (Protected)
+### ------------------------------------------------------------------------------
+
+### Create Category
+# @name createCategory
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Work Projects",
+  "color": "#3B82F6"
+}
+
+### List Categories
+# @name listCategories
+GET {{baseUrl}}/categories
+Authorization: Bearer {{authToken}}
+
+
+### ------------------------------------------------------------------------------
+### 4. TASK MANAGEMENT (Protected & Cached with Redis)
+### ------------------------------------------------------------------------------
+
+### Create Task (Initial state: pending)
+# @name createTask
+POST {{baseUrl}}/tasks
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Complete Golang Backend Architecture",
+  "description": "Implement Clean Architecture, PostgreSQL, Redis cache, and full JWT auth",
+  "status": "in_progress",
+  "priority": "high",
+  "due_date": "2026-10-01T18:00:00Z"
+}
+
+### List Tasks (Paginated, Filtered by Status & Sorted)
+# @name listTasksFiltered
+GET {{baseUrl}}/tasks?page=1&page_size=10&status=in_progress&sort_by=due_date&order=asc
+Authorization: Bearer {{authToken}}
+
+### Search Tasks by Keyword
+# @name searchTasks
+GET {{baseUrl}}/tasks?search=Architecture
+Authorization: Bearer {{authToken}}
+
+# Replace this with the UUID returned from the createTask request:
+@taskId = 550e8400-e29b-41d4-a716-446655440000
+
+### Get Single Task by ID (Demonstrates Redis sub-millisecond Cache Hit)
+# @name getTaskByID
+GET {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{authToken}}
+
+### Update Task (Marks status as completed, which auto-populates completed_at)
+# @name updateTask
+PUT {{baseUrl}}/tasks/{{taskId}}
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "completed"
+}
+
+### Delete Task (Soft delete via GORM & Cache Invalidation in Redis)
+# @name deleteTask
+DELETE {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{authToken}}
+
