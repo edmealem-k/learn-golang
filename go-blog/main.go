@@ -1271,8 +1271,54 @@ func main() {
 	mmm["two"] = 2
 	mmm["three"] = 3
 	fmt.Println(mmm)
+
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	// Concurrency in Go
+	// ref - Learning Go An Idiomatic Approach
+	//
+	// Concurrency, by definition, is the ability to break down a computer
+	// program or algorithm into individual parts, which can be executed independently.
+	//
+	// The final outcome of a concurrent program is the same as that of a program
+	// that has been executed sequentially.
+	// using Concurrency, we can achieve the same results in lesser time, thus increasing
+	// the overall performance and efficiency of our programs.
+	//
+	// Features that are the backbone of concurrency in Go:
+	// 		goroutines, channels, and the select keyword.
+	//
+	// More concurrency doesn't automatically make things faster, and it can make code
+	// harder to understand. The key is understanding that concurrency is not
+	// parrallelism.
+	//
+	// Goroutines
+	// To understand goroutines, lets define a couple of terms
+	//
+	// A process is an instance of a program that's being run by the computer's OS.
+	// The OS associates some resources, such as memory, with the process and makes
+	// sure that other process can't access them.
+	//
+	// A Thread is a unit of execution that is given some time to run by the OS.
+	// A process is composed of one or more threads.
+	// Threads within a process can share access to resources.
 }
 
+//
+//
+//
+//
+//
+//
 // Generics on Maps
 //
 // type CustomMap map[string]int // if we wanted the key to be more that just string we will need generics
