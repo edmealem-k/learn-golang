@@ -29,15 +29,15 @@ func main() {
 	// Add cors middleware for frontend access
 	router.Use(corsMiddleware())
 
-	// Setup application routes
-	routes.SetupRoutes(router)
-
 	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"status": "healthy",
 		})
 	})
+
+	// Setup application routes
+	routes.SetupRoutes(router)
 
 	// Start server
 	port := os.Getenv("PORT")

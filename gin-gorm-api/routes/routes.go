@@ -15,7 +15,7 @@ func SetupRoutes(router *gin.Engine) {
 		// User routes
 		users := v1.Group("/users")
 		{
-			users.POST("", handlers.CreatePost)
+			users.POST("", handlers.CreateUser)
 			users.GET("", handlers.ListUsers)
 			users.GET("/:id", handlers.GetUser)
 			users.PATCH("/:id", handlers.UpdateUser)
