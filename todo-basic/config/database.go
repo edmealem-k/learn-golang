@@ -15,7 +15,7 @@ var DB *gorm.DB
 
 func ConnectDatabase() {
 	db, err := gorm.Open(postgres.Open(fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disabled",
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_USER"),
@@ -36,7 +36,7 @@ func ConnectDatabase() {
 	}
 
 	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxIdleConns(100)
+	sqlDB.SetMaxOpenConns(100)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	DB = db

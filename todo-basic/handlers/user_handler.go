@@ -10,9 +10,9 @@ import (
 )
 
 type CreateUserInput struct {
-	Username string `json:"username" binding:"required,max:50,min:3"`
-	Email    string `json:"email" binding:"required,max:50,email"`
-	Password string `json:"password" binding:"required,min:8"`
+	Username string `json:"username" binding:"required,max=50,min=3"`
+	Email    string `json:"email" binding:"required,max=50,email"`
+	Password string `json:"password" binding:"required,min=8"`
 }
 
 func CreateUser(c *gin.Context) {
@@ -48,5 +48,5 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusCreated, user)
 }
